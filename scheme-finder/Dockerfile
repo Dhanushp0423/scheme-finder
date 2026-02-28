@@ -18,8 +18,8 @@ FROM eclipse-temurin:21-jdk
 WORKDIR /app
 
 # Non-root user for security
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
+RUN groupadd spring && useradd -g spring spring
+USER spring
 
 # Copy JAR from builder stage
 COPY --from=builder /app/target/*.jar app.jar
