@@ -1,0 +1,29 @@
+# ===================================================
+# render.yaml — Render deployment config
+# Place at: root of your backend project (same level as pom.xml)
+# ===================================================
+# NOTE: We use Railway for MySQL (free), NOT Render's database
+# So there is no 'databases:' section here — all DB env vars
+# are set manually in the Render dashboard
+
+services:
+  - type: web
+    name: scheme-portal-backend
+    env: docker
+    plan: free
+    branch: main                    # your GitHub branch name
+    healthCheckPath: /actuator/health
+
+    # ── Environment variables ─────────────────────────
+    # Set these in Render Dashboard → Environment tab
+    # DO NOT put real secrets in this file
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+
+      # ── Set these manually in Render dashboard ──────
+      # DATABASE_URL     → from Railway (see guide below)
+      # DATABASE_USERNAME → from Railway
+      # DATABASE_PASSWORD → from Railway
+      # JWT_SECRET        → any long random string (32+ chars)
+      # CORS_ALLOWED_ORIGINS → your Vercel URL after deploy
